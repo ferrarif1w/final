@@ -74,7 +74,7 @@ int main(int argc, char** args) {
     int whiteCode = randomDecision(2);
     if (game == "pc" && whiteCode == 0) {
         PTE("Inserisci il nome del giocatore umano: ");
-        cin >> names[0];
+        getline(cin, names[0]);
         //se il nome inserito è presente tra i nomi scelti per i bot, eliminarlo dalla lista
         auto tmp = find(botNames.begin(), botNames.end(), names[0]);
         if (tmp != botNames.end()) botNames.erase(tmp);
@@ -87,7 +87,7 @@ int main(int argc, char** args) {
     }
     else if (game == "pc" && whiteCode == 1) {
         PTE("Inserisci il nome del giocatore umano: ");
-        cin >> names[1];
+        getline(cin, names[1]);
         auto tmp = find(botNames.begin(), botNames.end(), names[0]);
         if (tmp != botNames.end()) botNames.erase(tmp);
         PTE("Giocherai con le pedine nere!");
@@ -160,9 +160,9 @@ int main(int argc, char** args) {
                     //whiteCode rappresenta indice di giocatore umano in names
                     message += names[whiteCode] + ", inserisci 'y' per dichiarare patta!";
                     PTE(message);
-                    char draw;
-                    cin >> draw;
-                    if (draw == 'y') {
+                    string draw;
+                    getline(cin, draw);
+                    if (draw == "y") {
                         PTE("La partita termina in patta! Ecco la scacchiera finale:");
                         cout << board->printBoard();
                         endgame = true;
@@ -208,12 +208,13 @@ int main(int argc, char** args) {
                     PTE(names[(i+1)%2] + " non accetta la patta! La partita continua!");
                 }
             }
-            string start;
-            string end;
+            string places;
             bool result;
             insertMove:
             PTE("Inserisci le coordinate del pezzo che vuoi spostare e della casella nella quale vuoi spostare il pezzo: ");
-            cin >> start >> end;
+            getline(cin, places);
+            string start = places.substr(0, 2);
+            string end = places.substr(3, 2);
             try {result = currentPlayer->Move(start, end);}
             catch (ChessBoard::InvalidMoveException e) {    //mossa inserita non ammessa
                 PTE("La mossa inserita non è valida.");
@@ -231,9 +232,9 @@ int main(int argc, char** args) {
                 promotion:
                 message += " (sia maiuscolo che minuscolo):\n- A: alfiere;\n- C: cavallo;\n- D: regina;\n- T: torre.";
                 PTE(message);
-                char code;
-                cin >> code;
-                try {players[index]->PerformPromotion(code);}
+                string code;
+                getline(cin, code);
+                try {players[index]->PerformPromotion(code[0]);}
                 catch (ChessBoard::InvalidInputException e) {   //lettera inserita non valida
                     message = "L'input non è valido, inserisci uno di questi pezzi";
                     goto promotion; //ritorna a inserimento pezzo
@@ -246,9 +247,9 @@ int main(int argc, char** args) {
                 if (game == "pc") { //avversario umano: viene chiesto se accetta la patta
                     message += "  Vuoi accettare? ";
                     PTE(message);
-                    char answer;
-                    cin >> answer;
-                    if (answer == 'y') {
+                    string answer;
+                    getline(cin, answer);
+                    if (answer == "y") {
                         PTE("Patta accettata! La partita termina! Ecco la scacchiera finale:");
                         cout << board->printBoard();
                         endgame = true;
