@@ -190,10 +190,10 @@ int main(int argc, char** args) {
         PTE(message);
         Gamers* currentPlayer = players[index];
         if (types[index] == 'U') {  //giocatore umano
-            PTE("Se vuoi stampare la scacchiera, inserire 'y': ");
+            PTE("Se vuoi stampare la scacchiera, inserire 'XX XX': ");
             string code;
-            cin >> code;
-            if (code == "y") cout << board->printBoard();
+            getline(cin, code);
+            if (code == "XX XX") cout << board->printBoard();
             else if (code == "patta") { //se umano propone patta, bot decide casualmente se accettarla
                 if (randomDecision(BDAP)) {
                     PTE(names[(i+1)%2] + " accetta la patta! La partita termina! Ecco la scacchiera finale:");
