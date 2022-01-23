@@ -191,6 +191,8 @@ int main(int argc, char** args) {
         Gamers* currentPlayer = players[index];
         if (types[index] == 'U') {  //giocatore umano
             PTE("Se vuoi stampare la scacchiera, inserire 'XX XX': ");
+            cin.clear();
+            cin.sync();
             string code;
             getline(cin, code);
             if (code == "XX XX") cout << board->printBoard();
