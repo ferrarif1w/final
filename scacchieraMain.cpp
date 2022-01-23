@@ -213,11 +213,17 @@ int main(int argc, char** args) {
             insertMove:
             PTE("Inserisci le coordinate del pezzo che vuoi spostare e della casella nella quale vuoi spostare il pezzo: ");
             getline(cin, places);
-            string start = places.substr(0, 2);
-            string end = places.substr(3, 2);
-            try {result = currentPlayer->Move(start, end);}
+            try {
+                string start = places.substr(0, 2);
+                string end = places.substr(3, 2);
+                result = currentPlayer->Move(start, end);
+            }
             catch (ChessBoard::InvalidMoveException e) {    //mossa inserita non ammessa
                 PTE("La mossa inserita non è valida.");
+                goto insertMove;    //ritorna all'inserimento della mossa
+            }
+            catch (out_of_range e) {   //input non valido
+                PTE("Inserire l'input su una sola riga.");
                 goto insertMove;    //ritorna all'inserimento della mossa
             }
             catch (ChessBoard::InvalidInputException e) {   //input non valido
